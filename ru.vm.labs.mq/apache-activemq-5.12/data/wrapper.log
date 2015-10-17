@@ -1,0 +1,59 @@
+STATUS | wrapper  | 2015/10/14 23:24:13 | --> Wrapper Started as Daemon
+STATUS | wrapper  | 2015/10/14 23:24:13 | Launching a JVM...
+INFO   | jvm 1    | 2015/10/14 23:24:13 | Wrapper (Version 3.2.3) http://wrapper.tanukisoftware.org
+INFO   | jvm 1    | 2015/10/14 23:24:13 |   Copyright 1999-2006 Tanuki Software, Inc.  All Rights Reserved.
+INFO   | jvm 1    | 2015/10/14 23:24:13 | 
+INFO   | jvm 1    | 2015/10/14 23:24:13 | WrapperSimpleApp: Unable to locate the class org.apache.activemq.console.Main: java.lang.UnsupportedClassVersionError: org/apache/activemq/console/Main : Unsupported major.minor version 51.0
+INFO   | jvm 1    | 2015/10/14 23:24:13 | 
+INFO   | jvm 1    | 2015/10/14 23:24:13 | WrapperSimpleApp Usage:
+INFO   | jvm 1    | 2015/10/14 23:24:13 |   java org.tanukisoftware.wrapper.WrapperSimpleApp {app_class} [app_arguments]
+INFO   | jvm 1    | 2015/10/14 23:24:13 | 
+INFO   | jvm 1    | 2015/10/14 23:24:13 | Where:
+INFO   | jvm 1    | 2015/10/14 23:24:13 |   app_class:      The fully qualified class name of the application to run.
+INFO   | jvm 1    | 2015/10/14 23:24:13 |   app_arguments:  The arguments that would normally be passed to the
+INFO   | jvm 1    | 2015/10/14 23:24:13 |                   application.
+STATUS | wrapper  | 2015/10/14 23:24:15 | <-- Wrapper Stopped
+STATUS | wrapper  | 2015/10/14 23:24:49 | --> Wrapper Started as Daemon
+STATUS | wrapper  | 2015/10/14 23:24:49 | Launching a JVM...
+INFO   | jvm 1    | 2015/10/14 23:24:50 | Wrapper (Version 3.2.3) http://wrapper.tanukisoftware.org
+INFO   | jvm 1    | 2015/10/14 23:24:50 |   Copyright 1999-2006 Tanuki Software, Inc.  All Rights Reserved.
+INFO   | jvm 1    | 2015/10/14 23:24:50 | 
+INFO   | jvm 1    | 2015/10/14 23:24:50 | 
+INFO   | jvm 1    | 2015/10/14 23:24:50 | WARNING - Unable to load the Wrapper's native library 'libwrapper.so'.
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           The file is located on the path at the following location but
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           could not be loaded:
+INFO   | jvm 1    | 2015/10/14 23:24:50 |             /opt/apache-activemq-5.12/bin/linux-x86-32/../../bin/linux-x86-32/libwrapper.so
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           Please verify that the file is readable by the current user
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           and that the file has not been corrupted in any way.
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           One common cause of this problem is running a 32-bit version
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           of the Wrapper with a 64-bit version of Java, or vica versa.
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           This is a 64-bit JVM.
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           Reported cause:
+INFO   | jvm 1    | 2015/10/14 23:24:50 |             /opt/apache-activemq-5.12/bin/linux-x86-32/libwrapper.so: /opt/apache-activemq-5.12/bin/linux-x86-32/libwrapper.so: wrong ELF class: ELFCLASS32 (Possible cause: architecture word width mismatch)
+INFO   | jvm 1    | 2015/10/14 23:24:50 |           System signals will not be handled correctly.
+INFO   | jvm 1    | 2015/10/14 23:24:50 | 
+INFO   | jvm 1    | 2015/10/14 23:24:50 | WrapperSimpleApp: Unable to locate the class org.apache.activemq.console.Main: java.lang.UnsupportedClassVersionError: org/apache/activemq/console/Main : Unsupported major.minor version 51.0
+INFO   | jvm 1    | 2015/10/14 23:24:50 | 
+INFO   | jvm 1    | 2015/10/14 23:24:50 | WrapperSimpleApp Usage:
+INFO   | jvm 1    | 2015/10/14 23:24:50 |   java org.tanukisoftware.wrapper.WrapperSimpleApp {app_class} [app_arguments]
+INFO   | jvm 1    | 2015/10/14 23:24:50 | 
+INFO   | jvm 1    | 2015/10/14 23:24:50 | Where:
+INFO   | jvm 1    | 2015/10/14 23:24:50 |   app_class:      The fully qualified class name of the application to run.
+INFO   | jvm 1    | 2015/10/14 23:24:50 |   app_arguments:  The arguments that would normally be passed to the
+INFO   | jvm 1    | 2015/10/14 23:24:50 |                   application.
+STATUS | wrapper  | 2015/10/14 23:24:52 | <-- Wrapper Stopped
+STATUS | wrapper  | 2015/10/14 23:25:35 | --> Wrapper Started as Daemon
+STATUS | wrapper  | 2015/10/14 23:25:36 | Launching a JVM...
+INFO   | jvm 1    | 2015/10/14 23:25:36 | Wrapper (Version 3.2.3) http://wrapper.tanukisoftware.org
+INFO   | jvm 1    | 2015/10/14 23:25:36 |   Copyright 1999-2006 Tanuki Software, Inc.  All Rights Reserved.
+INFO   | jvm 1    | 2015/10/14 23:25:36 | 
+INFO   | jvm 1    | 2015/10/14 23:25:36 | WrapperSimpleApp: Unable to locate the class org.apache.activemq.console.Main: java.lang.UnsupportedClassVersionError: org/apache/activemq/console/Main : Unsupported major.minor version 51.0
+INFO   | jvm 1    | 2015/10/14 23:25:36 | 
+INFO   | jvm 1    | 2015/10/14 23:25:36 | WrapperSimpleApp Usage:
+INFO   | jvm 1    | 2015/10/14 23:25:36 |   java org.tanukisoftware.wrapper.WrapperSimpleApp {app_class} [app_arguments]
+INFO   | jvm 1    | 2015/10/14 23:25:36 | 
+INFO   | jvm 1    | 2015/10/14 23:25:36 | Where:
+INFO   | jvm 1    | 2015/10/14 23:25:36 |   app_class:      The fully qualified class name of the application to run.
+INFO   | jvm 1    | 2015/10/14 23:25:36 |   app_arguments:  The arguments that would normally be passed to the
+INFO   | jvm 1    | 2015/10/14 23:25:36 |                   application.
+STATUS | wrapper  | 2015/10/14 23:25:38 | <-- Wrapper Stopped

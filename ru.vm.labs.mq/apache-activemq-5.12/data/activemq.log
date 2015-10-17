@@ -1,0 +1,165 @@
+2015-10-14 23:43:59,819 | INFO  | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@b47a87e: startup date [Wed Oct 14 23:43:59 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | main
+2015-10-14 23:44:02,870 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] started | org.apache.activemq.store.kahadb.plist.PListStoreImpl | main
+2015-10-14 23:44:02,966 | INFO  | Using Persistence Adapter: KahaDBPersistenceAdapter[/opt/apache-activemq-5.12/data/kahadb] | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:03,288 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53005-1444851843137-0:1) is starting | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:03,330 | INFO  | Listening for connections at: tcp://linux-icqi:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-14 23:44:03,339 | INFO  | Connector openwire started | org.apache.activemq.broker.TransportConnector | main
+2015-10-14 23:44:03,349 | INFO  | Listening for connections at: amqp://linux-icqi:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-14 23:44:03,355 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-14 23:44:03,370 | INFO  | Listening for connections at: stomp://linux-icqi:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-14 23:44:03,377 | INFO  | Connector stomp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-14 23:44:03,391 | INFO  | Listening for connections at: mqtt://linux-icqi:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-14 23:44:03,396 | INFO  | Connector mqtt started | org.apache.activemq.broker.TransportConnector | main
+2015-10-14 23:44:03,634 | INFO  | Listening for connections at ws://linux-icqi:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.ws.WSTransportServer | main
+2015-10-14 23:44:03,635 | INFO  | Connector ws started | org.apache.activemq.broker.TransportConnector | main
+2015-10-14 23:44:03,640 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53005-1444851843137-0:1) started | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:03,650 | INFO  | For help or more information please see: http://activemq.apache.org | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:03,664 | WARN  | Store limit is 102400 mb (current store usage is 0 mb). The data directory: /opt/apache-activemq-5.12/data/kahadb only has 3121 mb of usable space - resetting to maximum available disk space: 3121 mb | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:03,679 | WARN  | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/apache-activemq-5.12/data/localhost/tmp_storage only has 3121 mb of usable space - resetting to maximum available 3121 mb. | org.apache.activemq.broker.BrokerService | main
+2015-10-14 23:44:04,561 | INFO  | ActiveMQ WebConsole available at http://0.0.0.0:8161/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-14 23:44:04,562 | INFO  | ActiveMQ Jolokia REST API available at http://0.0.0.0:8161/api/jolokia/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-14 23:44:04,629 | INFO  | Initializing Spring FrameworkServlet 'dispatcher' | /admin | main
+2015-10-14 23:44:05,344 | INFO  | jolokia-agent: No access restrictor found at classpath:/jolokia-access.xml, access to all MBeans is allowed | /api | main
+2015-10-14 23:48:31,380 | INFO  | Connector vm://localhost started | org.apache.activemq.broker.TransportConnector | qtp1109984189-39
+2015-10-14 23:51:33,721 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53005-1444851843137-0:1) is shutting down | org.apache.activemq.broker.BrokerService | Thread-25
+2015-10-14 23:51:33,735 | INFO  | Connector openwire stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,744 | INFO  | Connector amqp stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,746 | INFO  | Connector stomp stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,750 | INFO  | Connector mqtt stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,821 | INFO  | Connector ws stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,829 | INFO  | Connector vm://localhost stopped | org.apache.activemq.broker.TransportConnector | Thread-25
+2015-10-14 23:51:33,834 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] stopped | org.apache.activemq.store.kahadb.plist.PListStoreImpl | Thread-25
+2015-10-14 23:51:33,835 | INFO  | Stopping async queue tasks | org.apache.activemq.store.kahadb.KahaDBStore | Thread-25
+2015-10-14 23:51:33,836 | INFO  | Stopping async topic tasks | org.apache.activemq.store.kahadb.KahaDBStore | Thread-25
+2015-10-14 23:51:33,837 | INFO  | Stopped KahaDB | org.apache.activemq.store.kahadb.KahaDBStore | Thread-25
+2015-10-14 23:51:34,055 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53005-1444851843137-0:1) uptime 7 minutes | org.apache.activemq.broker.BrokerService | Thread-25
+2015-10-14 23:51:34,056 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53005-1444851843137-0:1) is shutdown | org.apache.activemq.broker.BrokerService | Thread-25
+2015-10-14 23:51:34,057 | INFO  | Closing org.apache.activemq.xbean.XBeanBrokerFactory$1@b47a87e: startup date [Wed Oct 14 23:43:59 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | Thread-25
+2015-10-14 23:51:34,077 | INFO  | Destroying Spring FrameworkServlet 'dispatcher' | /admin | Thread-25
+2015-10-15 17:41:28,227 | INFO  | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@b47a87e: startup date [Thu Oct 15 17:41:28 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | main
+2015-10-15 17:41:30,704 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] started | org.apache.activemq.store.kahadb.plist.PListStoreImpl | main
+2015-10-15 17:41:30,776 | INFO  | Using Persistence Adapter: KahaDBPersistenceAdapter[/opt/apache-activemq-5.12/data/kahadb] | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:31,145 | INFO  | KahaDB is version 6 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 17:41:31,222 | INFO  | Recovering from the journal @1:503 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 17:41:31,229 | INFO  | Recovery replayed 90 operations from the journal in 0.035 seconds. | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 17:41:31,409 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-34395-1444916491262-0:1) is starting | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:31,510 | INFO  | Listening for connections at: tcp://linux-icqi:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 17:41:31,515 | INFO  | Connector openwire started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 17:41:31,525 | INFO  | Listening for connections at: amqp://linux-icqi:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 17:41:31,530 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 17:41:31,538 | INFO  | Listening for connections at: stomp://linux-icqi:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 17:41:31,553 | INFO  | Connector stomp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 17:41:31,565 | INFO  | Listening for connections at: mqtt://linux-icqi:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 17:41:31,570 | INFO  | Connector mqtt started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 17:41:31,781 | INFO  | Listening for connections at ws://linux-icqi:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.ws.WSTransportServer | main
+2015-10-15 17:41:31,782 | INFO  | Connector ws started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 17:41:31,804 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-34395-1444916491262-0:1) started | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:31,814 | INFO  | For help or more information please see: http://activemq.apache.org | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:31,822 | WARN  | Store limit is 102400 mb (current store usage is 0 mb). The data directory: /opt/apache-activemq-5.12/data/kahadb only has 3003 mb of usable space - resetting to maximum available disk space: 3003 mb | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:31,826 | WARN  | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/apache-activemq-5.12/data/localhost/tmp_storage only has 3003 mb of usable space - resetting to maximum available 3003 mb. | org.apache.activemq.broker.BrokerService | main
+2015-10-15 17:41:32,575 | INFO  | ActiveMQ WebConsole available at http://0.0.0.0:8161/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 17:41:32,576 | INFO  | ActiveMQ Jolokia REST API available at http://0.0.0.0:8161/api/jolokia/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 17:41:32,682 | INFO  | Initializing Spring FrameworkServlet 'dispatcher' | /admin | main
+2015-10-15 17:41:33,330 | INFO  | jolokia-agent: No access restrictor found at classpath:/jolokia-access.xml, access to all MBeans is allowed | /api | main
+2015-10-15 17:43:14,695 | INFO  | Connector vm://localhost started | org.apache.activemq.broker.TransportConnector | qtp696102314-54
+2015-10-15 18:04:59,031 | WARN  | Transport Connection to: tcp://127.0.0.1:49909 failed: java.io.EOFException | org.apache.activemq.broker.TransportConnection.Transport | ActiveMQ Transport: tcp:///127.0.0.1:49909@61616
+2015-10-15 19:41:58,452 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-34395-1444916491262-0:1) is shutting down | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,472 | INFO  | Connector openwire stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,480 | INFO  | Connector amqp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,481 | INFO  | Connector stomp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,484 | INFO  | Connector mqtt stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,616 | INFO  | Connector ws stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,674 | INFO  | Connector vm://localhost stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,695 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] stopped | org.apache.activemq.store.kahadb.plist.PListStoreImpl | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,699 | INFO  | Stopping async queue tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,700 | INFO  | Stopping async topic tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,702 | INFO  | Stopped KahaDB | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,785 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-34395-1444916491262-0:1) uptime 2 hours | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,786 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-34395-1444916491262-0:1) is shutdown | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,792 | INFO  | Closing org.apache.activemq.xbean.XBeanBrokerFactory$1@b47a87e: startup date [Thu Oct 15 17:41:28 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | ActiveMQ ShutdownHook
+2015-10-15 19:41:58,855 | INFO  | Destroying Spring FrameworkServlet 'dispatcher' | /admin | ActiveMQ ShutdownHook
+2015-10-15 19:42:08,672 | INFO  | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@465c16: startup date [Thu Oct 15 19:42:08 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | main
+2015-10-15 19:42:11,189 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] started | org.apache.activemq.store.kahadb.plist.PListStoreImpl | main
+2015-10-15 19:42:11,262 | INFO  | Using Persistence Adapter: KahaDBPersistenceAdapter[/opt/apache-activemq-5.12/data/kahadb] | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:11,770 | INFO  | KahaDB is version 6 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 19:42:11,854 | INFO  | Recovering from the journal @1:48716 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 19:42:11,927 | INFO  | Recovery replayed 1158 operations from the journal in 0.12 seconds. | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 19:42:12,125 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53120-1444923731963-0:1) is starting | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:12,240 | INFO  | Listening for connections at: tcp://linux-icqi:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 19:42:12,244 | INFO  | Connector openwire started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 19:42:12,267 | INFO  | Listening for connections at: amqp://linux-icqi:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 19:42:12,276 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 19:42:12,284 | INFO  | Listening for connections at: stomp://linux-icqi:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 19:42:12,290 | INFO  | Connector stomp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 19:42:12,300 | INFO  | Listening for connections at: mqtt://linux-icqi:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 19:42:12,305 | INFO  | Connector mqtt started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 19:42:12,558 | INFO  | Listening for connections at ws://linux-icqi:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.ws.WSTransportServer | main
+2015-10-15 19:42:12,559 | INFO  | Connector ws started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 19:42:12,589 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53120-1444923731963-0:1) started | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:12,605 | INFO  | For help or more information please see: http://activemq.apache.org | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:12,616 | WARN  | Store limit is 102400 mb (current store usage is 0 mb). The data directory: /opt/apache-activemq-5.12/data/kahadb only has 2983 mb of usable space - resetting to maximum available disk space: 2983 mb | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:12,628 | WARN  | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/apache-activemq-5.12/data/localhost/tmp_storage only has 2983 mb of usable space - resetting to maximum available 2983 mb. | org.apache.activemq.broker.BrokerService | main
+2015-10-15 19:42:14,190 | INFO  | ActiveMQ WebConsole available at http://0.0.0.0:8161/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 19:42:14,190 | INFO  | ActiveMQ Jolokia REST API available at http://0.0.0.0:8161/api/jolokia/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 19:42:14,287 | INFO  | Initializing Spring FrameworkServlet 'dispatcher' | /admin | main
+2015-10-15 19:42:14,984 | INFO  | jolokia-agent: No access restrictor found at classpath:/jolokia-access.xml, access to all MBeans is allowed | /api | main
+2015-10-15 19:44:09,992 | WARN  | Transport Connection to: tcp://127.0.0.1:50840 failed: java.io.EOFException | org.apache.activemq.broker.TransportConnection.Transport | ActiveMQ Transport: tcp:///127.0.0.1:50840@61616
+2015-10-15 19:52:44,191 | INFO  | Connector vm://localhost started | org.apache.activemq.broker.TransportConnector | qtp677948213-43
+2015-10-15 20:06:45,173 | WARN  | Transport Connection to: tcp://127.0.0.1:50924 failed: java.io.EOFException | org.apache.activemq.broker.TransportConnection.Transport | ActiveMQ Transport: tcp:///127.0.0.1:50924@61616
+2015-10-15 21:53:58,903 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53120-1444923731963-0:1) is shutting down | org.apache.activemq.broker.BrokerService | Thread-28
+2015-10-15 21:53:58,916 | INFO  | Connector openwire stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:58,920 | INFO  | Connector amqp stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:58,923 | INFO  | Connector stomp stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:58,925 | INFO  | Connector mqtt stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:59,026 | WARN  | 3 threads could not be stopped | org.eclipse.jetty.util.thread.QueuedThreadPool | Thread-28
+2015-10-15 21:53:59,046 | INFO  | Connector ws stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:59,074 | INFO  | Connector vm://localhost stopped | org.apache.activemq.broker.TransportConnector | Thread-28
+2015-10-15 21:53:59,096 | INFO  | PListStore:[/opt/apache-activemq-5.12/data/localhost/tmp_storage] stopped | org.apache.activemq.store.kahadb.plist.PListStoreImpl | Thread-28
+2015-10-15 21:53:59,100 | INFO  | Stopping async queue tasks | org.apache.activemq.store.kahadb.KahaDBStore | Thread-28
+2015-10-15 21:53:59,103 | INFO  | Stopping async topic tasks | org.apache.activemq.store.kahadb.KahaDBStore | Thread-28
+2015-10-15 21:53:59,169 | INFO  | Stopped KahaDB | org.apache.activemq.store.kahadb.KahaDBStore | Thread-28
+2015-10-15 21:53:59,621 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53120-1444923731963-0:1) uptime 2 hours 11 minutes | org.apache.activemq.broker.BrokerService | Thread-28
+2015-10-15 21:53:59,623 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-53120-1444923731963-0:1) is shutdown | org.apache.activemq.broker.BrokerService | Thread-28
+2015-10-15 21:53:59,629 | INFO  | Closing org.apache.activemq.xbean.XBeanBrokerFactory$1@465c16: startup date [Thu Oct 15 19:42:08 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | Thread-28
+2015-10-15 21:53:59,690 | INFO  | Destroying Spring FrameworkServlet 'dispatcher' | /admin | Thread-28
+2015-10-15 21:54:40,592 | INFO  | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@465c16: startup date [Thu Oct 15 21:54:40 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | main
+2015-10-15 21:54:43,212 | INFO  | PListStore:[/home/administrator/workspace/ru.vm.labs.mq/apache-activemq-5.12/data/localhost/tmp_storage] started | org.apache.activemq.store.kahadb.plist.PListStoreImpl | main
+2015-10-15 21:54:43,268 | INFO  | Using Persistence Adapter: KahaDBPersistenceAdapter[/home/administrator/workspace/ru.vm.labs.mq/apache-activemq-5.12/data/kahadb] | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:43,774 | INFO  | KahaDB is version 6 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 21:54:43,905 | INFO  | Recovering from the journal @1:478137 | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 21:54:43,929 | INFO  | Recovery replayed 469 operations from the journal in 0.081 seconds. | org.apache.activemq.store.kahadb.MessageDatabase | main
+2015-10-15 21:54:44,106 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-48091-1444931683961-0:1) is starting | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:44,221 | INFO  | Listening for connections at: tcp://linux-icqi:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 21:54:44,226 | INFO  | Connector openwire started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 21:54:44,246 | INFO  | Listening for connections at: amqp://linux-icqi:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 21:54:44,251 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 21:54:44,267 | INFO  | Listening for connections at: stomp://linux-icqi:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 21:54:44,273 | INFO  | Connector stomp started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 21:54:44,286 | INFO  | Listening for connections at: mqtt://linux-icqi:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2015-10-15 21:54:44,291 | INFO  | Connector mqtt started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 21:54:44,520 | INFO  | Listening for connections at ws://linux-icqi:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.ws.WSTransportServer | main
+2015-10-15 21:54:44,521 | INFO  | Connector ws started | org.apache.activemq.broker.TransportConnector | main
+2015-10-15 21:54:44,533 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-48091-1444931683961-0:1) started | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:44,542 | INFO  | For help or more information please see: http://activemq.apache.org | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:44,592 | WARN  | Store limit is 102400 mb (current store usage is 0 mb). The data directory: /home/administrator/workspace/ru.vm.labs.mq/apache-activemq-5.12/data/kahadb only has 2974 mb of usable space - resetting to maximum available disk space: 2975 mb | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:44,594 | WARN  | Temporary Store limit is 51200 mb, whilst the temporary data directory: /home/administrator/workspace/ru.vm.labs.mq/apache-activemq-5.12/data/localhost/tmp_storage only has 2974 mb of usable space - resetting to maximum available 2974 mb. | org.apache.activemq.broker.BrokerService | main
+2015-10-15 21:54:45,356 | INFO  | ActiveMQ WebConsole available at http://0.0.0.0:8161/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 21:54:45,357 | INFO  | ActiveMQ Jolokia REST API available at http://0.0.0.0:8161/api/jolokia/ | org.apache.activemq.web.WebConsoleStarter | main
+2015-10-15 21:54:45,442 | INFO  | Initializing Spring FrameworkServlet 'dispatcher' | /admin | main
+2015-10-15 21:54:46,230 | INFO  | jolokia-agent: No access restrictor found at classpath:/jolokia-access.xml, access to all MBeans is allowed | /api | main
+2015-10-15 21:55:02,249 | INFO  | Connector vm://localhost started | org.apache.activemq.broker.TransportConnector | qtp2023990538-42
+2015-10-15 23:15:17,094 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-48091-1444931683961-0:1) is shutting down | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,139 | INFO  | Connector openwire stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,142 | INFO  | Connector amqp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,146 | INFO  | Connector stomp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,148 | INFO  | Connector mqtt stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,231 | INFO  | Connector ws stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,241 | INFO  | Connector vm://localhost stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,250 | INFO  | PListStore:[/home/administrator/workspace/ru.vm.labs.mq/apache-activemq-5.12/data/localhost/tmp_storage] stopped | org.apache.activemq.store.kahadb.plist.PListStoreImpl | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,251 | INFO  | Stopping async queue tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,252 | INFO  | Stopping async topic tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,253 | INFO  | Stopped KahaDB | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,727 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-48091-1444931683961-0:1) uptime 1 hour 20 minutes | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,728 | INFO  | Apache ActiveMQ 5.12-SNAPSHOT (localhost, ID:linux-icqi-48091-1444931683961-0:1) is shutdown | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,729 | INFO  | Closing org.apache.activemq.xbean.XBeanBrokerFactory$1@465c16: startup date [Thu Oct 15 21:54:40 MSK 2015]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | ActiveMQ ShutdownHook
+2015-10-15 23:15:17,769 | INFO  | Destroying Spring FrameworkServlet 'dispatcher' | /admin | ActiveMQ ShutdownHook
