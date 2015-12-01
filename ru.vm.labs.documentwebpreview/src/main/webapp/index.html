@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html style="height: 90%;">
+
+<head>
+<meta charset="UTF-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<title>Document Web Preview Lab</title>
+<script src="js/jquery.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+   $.ajaxSetup({cache: false});
+	
+   $("#upload_form").submit(function(e) 
+      {
+      // show loader and hide viewer
+      $("#pdf_viewer").hide();
+      $("#loader").css("display", "inline-block");
+       	  e.preventDefault();
+          $.ajax( {
+	      url: 'UploadServlet',
+	      type: 'POST',
+	      data: new FormData( this ),
+	      processData: false,
+	      contentType: false,
+	      success:function(data, textStatus, xhr){
+			  console.log(xhr.getResponseHeader('Location'));
+			  console.log(data);
+			  console.log(textStatus);
+			  
+			  $("#pdf_viewer").attr("data",data);
+			  
+			},
+		   error:  function(xhr, textStatus, errorThrown) {
+			   console.log(xhr);
+			   console.log(textStatus);
+			   console.log(errorThrown);
+			   
+			   alert("Произошла ошибка во время преобразования.");
+		   },
+	      complete:function(xhr, textStatus) {
+					  
+			 console.log(xhr);			
+			 console.log(textStatus);
+			 
+			 // hide loader
+			  $("#loader").css("display", "none");
+			//refresh object with PDF
+			  $("#pdf_viewer").show();			  
+			  var htmlstr = $("#pdf_viewer")[0].outerHTML;		  
+			  $("#pdf_viewer").remove();
+			  $('#viewer_container').prepend(htmlstr); 
+	      			
+			}
+          } );
+      });		
+});
+
+
+
+</script>
+
+<style>
+
+#formats_list{
+		align: center;
+		padding: 10px;		
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		text-align:justify;		
+		width: 100%;	
+		font-family: verdana,arial,sans-serif;
+		border-collapse: collapse;
+}	
+
+#formats_list td, th {
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+
+#viewer_container{
+		align: center;
+		padding: 10px;		
+		border: 2px solid #33bdef;
+		border-radius: 6px;
+		box-shadow: 0 0 20px rgba(0,0,0,0.5);
+		text-align:justify;		
+		width: 100%;		
+}
+
+.pushButton {
+	-moz-box-shadow: 0px -1px 0px -6px #f0f7fa;
+	-webkit-box-shadow: 0px -1px 0px -6px #f0f7fa;
+	box-shadow: 0px -1px 0px -6px #f0f7fa;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
+	background-color:#33bdef;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Times New Roman;
+	font-size:20px;
+	font-weight:bold;
+	padding:15px 24px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #5b6178;
+	float: right;
+}
+.pushButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
+	background:-moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
+	background-color:#019ad2;
+}
+.pushButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+#loader{
+		display: none;
+		position: relative;
+		top: 5%;	
+		width: 300px;
+}
+
+	
+</style>
+
+</head>
+
+<body style="height: 100%;">
+
+
+	<table
+		style="width: 100%; height: 100%; align: center;">
+		<tr>
+			<td valign="top" style="width: 40%">
+				<h2><b>This page can be used to convert a file of supported format to PDF. <br>supported file formats are:</b></h2>
+				
+				<table id="formats_list">
+				<thead>
+							<tr>
+								<th nowrap="nowrap" style="width:250px;">Name</th>
+								<th nowrap="nowrap">MIME Type / Internet Media Type</th>
+								<th nowrap="nowrap">File Extension</th>
+								<th nowrap="nowrap">More Details</th>
+							</tr>
+				</thead>
+				<tbody style="font-size: 10px;">
+				<tr>
+							<td>Adobe Portable Document Format</td>
+							<td>application/pdf</td>
+							<td>.pdf</td>
+							<td><a title="What is a '.pdf' file?" href="http://www.adobe.com/products/acrobat/adobepdf.html">Adobe PDF</a></td>
+				</tr>
+				<tr>
+							<td>Text File</td>
+							<td>text/plain</td>
+							<td>.txt</td>
+							<td><a title="What is a '.txt' file?" href="http://en.wikipedia.org/wiki/Text_file">Wikipedia: Text File</a></td>
+				</tr>
+				<tr>
+							<td>Rich Text Format</td>
+							<td>application/rtf</td>
+							<td>.rtf</td>
+							<td><a title="What is a '.rtf' file?" href="http://en.wikipedia.org/wiki/Rich_Text_Format">Wikipedia: Rich Text Format</a></td>
+				</tr>
+				<tr>
+							<td>Rich Text Format (RTF)</td>
+							<td>text/richtext</td>
+							<td>.rtx</td>
+							<td><a title="What is a '.rtx' file?" href="http://en.wikipedia.org/wiki/Rich_Text_Format">Wikipedia: Rich Text Format</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Word</td>
+							<td>application/msword</td>
+							<td>.doc</td>
+							<td><a title="What is a '.doc' file?" href="http://en.wikipedia.org/wiki/Microsoft_Word">Wikipedia: Microsoft Word</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Office - OOXML - Word Document</td>
+							<td>application/vnd.openxmlformats-officedocument.wordprocessingml.document</td>
+							<td>.docx</td>
+							<td><a title="What is a '.docx' file?" href="http://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.wordprocessingml.document">IANA: OOXML - Word Document</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Excel</td>
+							<td>application/vnd.ms-excel</td>
+							<td>.xls</td>
+							<td><a title="What is a '.xls' file?" href="http://www.iana.org/assignments/media-types/application/vnd.ms-excel">IANA: MS Excel</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Office - OOXML - Spreadsheet</td>
+							<td>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+							<td>.xlsx</td>
+							<td><a title="What is a '.xlsx' file?" href="http://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">IANA: OOXML - Spreadsheet</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft PowerPoint</td>
+							<td>application/vnd.ms-powerpoint</td>
+							<td>.ppt</td>
+							<td><a title="What is a '.ppt' file?" href="http://www.iana.org/assignments/media-types/application/vnd.ms-powerpoint">IANA: MS PowerPoint</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Office - OOXML - Presentation</td>
+							<td>application/vnd.openxmlformats-officedocument.presentationml.presentation</td>
+							<td>.pptx</td>
+							<td><a title="What is a '.pptx' file?" href="http://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.presentationml.presentation">IANA: OOXML - Presentation</a></td>
+				</tr>
+				<tr>
+							<td>Microsoft Project</td>
+							<td>application/vnd.ms-project</td>
+							<td>.mpp</td>
+							<td><a title="What is a '.mpp' file?" href="http://www.iana.org/assignments/media-types/application/vnd.ms-project">IANA: MS PowerPoint</a></td>
+				</tr>
+				<tr>
+							<td>Bitmap Image File</td>
+							<td>image/bmp</td>
+							<td>.bmp</td>
+							<td><a title="What is a '.bmp' file?" href="http://en.wikipedia.org/wiki/BMP_file_format">Wikipedia: BMP File Format</a></td>
+				</tr>
+				<tr>
+							<td>Graphics Interchange Format</td>
+							<td>image/gif</td>
+							<td>.gif</td>
+							<td><a title="What is a '.gif' file?" href="http://en.wikipedia.org/wiki/Gif">Wikipedia: Graphics Interchange Format</a></td>
+				</tr>
+				<tr>
+							<td>JPEG Image</td>
+							<td>image/jpeg</td>
+							<td>.jpeg, .jpg</td>
+							<td><a title="What is a '.jpeg, .jpg' file?" href="http://www.rfc-editor.org/rfc/rfc1314.txt">RFC 1314</a></td>
+				</tr>
+				<tr>
+							<td>Portable Network Graphics (PNG)</td>
+							<td>image/png</td>
+							<td>.png</td>
+							<td><a title="What is a '.png' file?" href="http://tools.ietf.org/html/rfc2083">RFC 2083</a></td>
+				</tr>
+				<tr>
+							<td>Tagged Image File Format</td>
+							<td>image/tiff</td>
+							<td>.tiff</td>
+							<td><a title="What is a '.tiff' file?" href="http://en.wikipedia.org/wiki/Tagged_Image_File_Format">Wikipedia: TIFF</a></td>
+				</tr>
+				</tbody>
+				</table>
+				<br/>
+						<hr style=" border: 1px solid grey;">	
+				<br/>
+
+				
+			</td>
+			<td id="viewer_container" style="width: 50%; height: 100%; text-align: center;" rowspan="2">
+				<object id = "pdf_viewer"
+					data="getcontent"
+					type="application/pdf" width="100%" height="100%"></object> 
+					
+				<div id="loader">
+				      <img src="img/loading.gif"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+		    <td style="text-align: center;">
+		    <b> Select a file to convert to PDF format:</b> <br><br>
+		    <div style="width:80%;">
+			  	<form id="upload_form" action="" method="post" enctype="multipart/form-data">
+								
+					<input type="file" name="file" /> 
+					
+					<input type="submit" value="Upload File" class="pushButton"/>
+					
+				</form>
+		  </div>
+		    </td>
+		</tr>
+	</table>
+
+
+</body>
+
+</html>
