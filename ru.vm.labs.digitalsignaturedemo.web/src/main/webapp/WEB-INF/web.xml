@@ -1,0 +1,71 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<display-name>Document Digital Signature Lab</display-name>
+
+	<!-- where to place a database -->
+	<context-param>
+		<param-name>database_folder</param-name>
+		<param-value>/home/administrator/workspace/ru.vm.labs.digitalsignaturedemo.web/berkeleyDB</param-value>
+	</context-param>
+
+	<!-- for application startup initialization -->
+	<listener>
+		<listener-class>
+			ru.vm.labs.digitalsignaturedemo.web.DigitalSignatureDemoWebServletContextListener
+		</listener-class>
+	</listener>
+
+	<!-- Servlet for saving documents -->
+	<servlet>
+		<servlet-name>SaveDocumentServlet</servlet-name>
+		<servlet-class>ru.vm.labs.digitalsignaturedemo.web.SaveDocumentServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SaveDocumentServlet</servlet-name>
+		<url-pattern>/SaveDocumentServlet</url-pattern>
+	</servlet-mapping>
+
+	<!-- Servlet for getting a document -->
+	<servlet>
+		<servlet-name>GetDocumentServlet</servlet-name>
+		<servlet-class>ru.vm.labs.digitalsignaturedemo.web.GetDocumentServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GetDocumentServlet</servlet-name>
+		<url-pattern>/GetDocumentServlet</url-pattern>
+	</servlet-mapping>
+
+	<!-- Servlet for getting a list of documents -->
+	<servlet>
+		<servlet-name>GetAllDocumentsServlet</servlet-name>
+		<servlet-class>ru.vm.labs.digitalsignaturedemo.web.GetAllDocumentsServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GetAllDocumentsServlet</servlet-name>
+		<url-pattern>/GetAllDocumentsServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Servlet for getting a file of the document -->
+	<servlet>
+		<servlet-name>GetDocumentFileServlet</servlet-name>
+		<servlet-class>ru.vm.labs.digitalsignaturedemo.web.GetDocumentFileServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GetDocumentFileServlet</servlet-name>
+		<url-pattern>/GetDocumentFileServlet</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>startpage.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

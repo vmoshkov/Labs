@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html style="height: 95%;">
+
+<head>
+<meta charset="UTF-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<title>Document Digital Signature Lab</title>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/cadesplugin_api.js"></script>
+<script src="js/jquery.simplemodal-1.4.4.js"></script>
+<!--<script src="js/Code.js"></script> -->
+<!-- <script src="js/async_code.js"></script> -->
+
+<!-- Confirm CSS files -->
+<link type='text/css' href='css/confirm.css' rel='stylesheet' media='screen' />
+<link type='text/css' href="css/jquery.dataTables.css" rel="stylesheet">
+<link type='text/css' href="css/startpage.css" rel="stylesheet">
+
+</head>
+
+<body style="height: 100%;">
+
+	<div id="main_table_div">
+
+		<form id="upload_form" action="" method="post"
+			enctype="multipart/form-data" class="form-style-3">
+
+			<fieldset>
+				<legend>Document attributes:</legend>
+				<table width="100%">
+					<tr>
+						<td width="40%" class="fieldcaption">Identifier:</td>
+						<td width="60%"><input type="text" name="doc_id" id="doc_id"
+							value="undefined" readonly style="background: #e5ffe5;" /></td>
+					</tr>
+					<tr>
+						<td class="fieldcaption">Hash value:</td>
+						<td><input type="text" id="doc_hash" value="undefined"
+							size="70" readonly style="background: #e5ffe5;" /></td>
+					</tr>					
+					<tr>
+						<td class="fieldcaption">Description:</td>
+						<td><textarea name="desc" id="desc" rows="4" cols="50"></textarea></td>
+					</tr>
+					<tr>
+						<td class="fieldcaption">Creation date:</td>
+						<td><input type="date" name="current_date" id="current_date"
+							value="2014-12-29"></td>
+					</tr>
+					<tr>
+						<td class="fieldcaption">Author:</td>
+						<td><input type="text" name="author" id="author"
+							value="George Martin"></td>
+					</tr>
+					<tr>
+						<td class="fieldcaption">Attached content file:</td>
+						<td><label><a id="file_name">undefined</a><br>
+								<input type="file" class="upload" name="file" id="file2select" />
+								<button id="btnSelectFile">
+									select file<img src="img/select_from_folder_24.png"
+										style="vertical-align: middle">
+								</button>
+								<button id="btnDownloadFile">
+									download<img src="img/download_file_24.png"
+										style="vertical-align: middle">
+								</button> </label></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<img src="img/signed_24.png" id="imgSigned" class="masterTooltip" title="Tooltip on image" hidden="true">
+							<input hidden="true" type="text" id="doc_signature" name="doc_signature" value="undefined"
+							size="2" readonly style="background: #e5ffe5;" />
+						</td>
+					</tr>
+					
+				</table>
+
+
+
+			</fieldset>
+
+			<input type="submit" value="Save Document" id="saveButton" /> 
+			<input type="submit" value="Sign Document" id="signButton" disabled="disabled" />
+			<input type="button" id="btnVerifySignature" value = "Verify Signature" disabled="disabled"/>
+			<input type="button" id="btnCreateNew" value="Create New Document"/>
+
+		</form>
+		<table id="main_table">
+			<thead>
+				<tr>
+					<th>Наименование файла</th>
+					<th width="100px">Дата создания документа</th>
+					<th>Автор</th>
+					<th>Описание</th>
+					<th width="100px">Внутренний идетификатор</th>
+					<th width="30px">Редактировать</th>
+				</tr>
+			</thead>
+		</table>
+
+		<!-- modal content -->
+		<div id='confirm'>
+			<div class='header'>Please, select a certificate to sign this document:</div>
+			<div class='message' id="message">
+				<select multiple id="certificates" size="8" >
+				</select>				
+			</div>
+			<div class='buttons'>
+				<div class='no simplemodal-close'>No</div>
+				<div class='yes' id='yes'>Yes</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript" charset="utf-8">
+		var CADESCOM_CADES_X_LONG_TYPE_1 = 0x5d;
+
+		var CAPICOM_LOCAL_MACHINE_STORE = 1;
+		var CAPICOM_CURRENT_USER_STORE = 2;
+		var CAPICOM_ACTIVE_DIRECTORY_USER_STORE = 3;
+
+		var CAPICOM_MY_STORE = "My";
+		var CAPICOM_ROOT_STORE = "Root";
+
+		var CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED = 2;
+		var CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME = 1;
+		var CAPICOM_CERTIFICATE_FIND_SHA1_HASH = 0;
+		var CADESCOM_BASE64_TO_BINARY = 0x01;
+		var CADESCOM_CADES_BES = 1;
+							
+
+		function GetErrorMessage(e) {
+			var err = e.message;
+			if (!err) {
+				err = e;
+			} else if (e.number) {
+				err += " (" + e.number + ")";
+			}
+			return err;
+		}
+
+		function getCertificatesListFromLocalStore() {
+			try {
+				var oStore = cadesplugin.CreateObject("CAdESCOM.Store");
+
+				oStore.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_MY_STORE);
+			} catch (e) {
+				alert("Ошибка при открытии хранилища: " + GetErrorMessage(e));
+				return;
+			}
+
+			var dateObj = new Date();
+			var certCnt;
+			var certList = [];
+
+			try {
+				certCnt = oStore.Certificates.Count;
+
+				if (certCnt == 0)
+					throw "Cannot find object or property. (0x80092004)";
+			} catch (ex) {
+				var message = GetErrorMessage(ex);
+				if ("Cannot find object or property. (0x80092004)" == message
+						|| "oStore.Certificates is undefined" == message
+						|| "Объект или свойство не найдено. (0x80092004)" == message) {
+					oStore.Close();
+					return;
+				}
+			}
+
+			if (certCnt) {
+				try {
+					for (var i = 1; i <= certCnt; i++) {
+						var cert = oStore.Certificates.Item(i);
+
+						if (dateObj < cert.ValidToDate && cert.HasPrivateKey()
+								&& cert.IsValid().Result) {
+							console.log(cert.SubjectName);
+							certList[i] = cert.SubjectName;
+						}
+					}
+				} catch (ex) {
+					alert("Ошибка при перечислении сертификатов: "
+							+ GetErrorMessage(ex));
+					return;
+				}
+			}
+
+			return certList;
+		}
+
+		function getCertificateFromLocalStoreByName(certSubjectName) {
+			var oStore = cadesplugin.CreateObject("CAdESCOM.Store");
+			oStore.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_MY_STORE);
+			//oStore.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_MY_STORE,
+			//CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED);
+
+			//var oStore = cadesplugin.CreateObject("CAPICOM.Store");
+			//oStore.Open(CAPICOM_LOCAL_MACHINE_STORE, CAPICOM_ROOT_STORE, CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED);
+
+			// this construction doesn't work
+			//var oCertificates = oStore.Certificates.Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, certSubjectName);
+
+			var oCertificates = oStore.Certificates;
+			var oCertificate = null;
+
+			try {
+				for (var i = 1; i <= oCertificates.Count; i++) {
+					var cert = oCertificates.Item(i);
+					if (certSubjectName == cert.SubjectName) {
+						console.log("found certificate: " + certSubjectName);
+						oCertificate = cert;
+					}
+				}
+			} catch (ex) {
+				alert("Ошибка при перечислении сертификатов: "
+						+ GetErrorMessage(ex));
+				return;
+			}
+
+			if (oCertificate == null) {
+				alert("Certificate not found: " + certSubjectName);
+				return;
+			}
+
+			return oCertificate;
+		}
+
+		function SignCreate(certObj, dataToSign) {
+
+			var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
+			oSigner.Certificate = certObj;
+
+			var oSignedData = cadesplugin
+					.CreateObject("CAdESCOM.CadesSignedData");
+			// Значение свойства ContentEncoding должно быть задано
+			// до заполнения свойства Content
+			oSignedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
+			oSignedData.Content = dataToSign;
+
+			var sSignedMessage = "";
+			try {
+				sSignedMessage = oSignedData.SignCades(oSigner,
+						CADESCOM_CADES_BES, true);
+			} catch (err) {
+				alert("Failed to create signature. Error: "
+						+ GetErrorMessage(err));
+				return;
+			}
+
+			return sSignedMessage;
+		}
+
+		function Verify(sSignedMessage, dataToVerify) {
+			var oSignedData = cadesplugin
+					.CreateObject("CAdESCOM.CadesSignedData");
+			try {
+				// Значение свойства ContentEncoding должно быть задано
+				// до заполнения свойства Content
+				oSignedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
+				oSignedData.Content = dataToVerify;
+				oSignedData.VerifyCades(sSignedMessage, CADESCOM_CADES_BES,
+						true);
+			} catch (err) {
+				alert("Failed to verify signature. Error: "
+						+ GetErrorMessage(err));
+				return false;
+			}
+
+			return true;
+		}
+		
+		/*
+		* This function helps to update table content
+		*/
+		function updateTable()
+		{
+			var oTable = $('#main_table').dataTable();
+			
+			//get data from server. It should return all saved documents
+			$.ajax({
+					url : 'GetAllDocumentsServlet',
+					type : 'GET',
+					success : function(data, textStatus,xhr) {
+						console.log(data);
+						console.log(textStatus);
+						
+						//get json from response
+						var dataSet = jQuery.parseJSON(data);
+						
+						oTable.fnClearTable(0);
+						oTable.fnAddData(dataSet);
+						oTable.fnDraw();
+					}
+			});
+			
+			
+		}
+
+		$(document).ready(function() {
+				$.ajaxSetup({
+							cache : false
+				  			});
+
+				// set current date
+				$("#current_date").val(moment().format("YYYY/MM/DD"));
+				// disable sign button until the new document is saved
+				$("#signButton").prop('disabled', true);
+				//disable download button
+				$("#btnDownloadFile").prop('disabled', true);
+				
+				
+				// Tooltip only Text
+				$('.masterTooltip').hover(function(){
+				        // Hover over code
+				        var title = $(this).attr('title');
+				        $(this).data('tipText', title).removeAttr('title');
+				        $('<p class="tooltip"></p>')
+				        .text($("#doc_signature").val())
+				        .appendTo('body')
+				        .fadeIn('slow');
+				}, function() {
+				        // Hover out code
+				        $(this).attr('title', $(this).data('tipText'));
+				        $('.tooltip').remove();
+				}).mousemove(function(e) {
+				        var mousex = e.pageX + 20; //Get X coordinates
+				        var mousey = e.pageY + 10; //Get Y coordinates
+				        $('.tooltip')
+				        .css({ top: mousey, left: mousex })
+				});
+
+				//get data from server. It should return all saved documents
+				$.ajax({
+						url : 'GetAllDocumentsServlet',
+						type : 'GET',
+						success : function(data, textStatus,xhr) {
+								console.log(data);
+								console.log(textStatus);
+
+								//get json from response
+								var dataSet = jQuery.parseJSON(data);
+
+								//Инициализация jquery datatables и заполнение её данными
+								var oMainTable = $('#main_table').DataTable({
+																"bLengthChange" : false,
+																"pageLength" : 5,
+																"bInfo" : true,
+																//"sScrollY": "200px",
+																"bPaginate" : true,
+																"bStateSave" : true,
+																"rowHeight" : 'auto',
+																"bFilter" : true,
+																"bSort" : true,
+																"bAutoWidth" : true,
+																"data" : dataSet,
+																columns : [
+
+																		{
+																			data : "fileName"
+																		},
+																		{
+																			data : "dateOfcreation"
+																		},
+																		{
+																			data : "author"
+																		},
+																		{
+																			data : "description"
+																		},
+																		{
+																			data : "doc_id",
+																			className : "dt-center"
+																		},
+																		{
+																			data : null,
+																			className : "dt-center edit_style",
+																			defaultContent : '<button style="background-color: transparent; background: transparent; border: none;" ><img src="img/edit_24.png" alt="Выбрать для редактирования"/></button>'
+																		} ]
+															});
+										},
+						error : function(xhr, textStatus,errorThrown) {
+											console.log(xhr);
+											console.log(textStatus);
+											console.log(errorThrown);
+
+											alert("Произошла ошибка во время получения данных для таблицы.");
+										},
+						complete : function(xhr, textStatus) {
+
+											console.log(xhr);
+											console.log(textStatus);
+
+										}
+						}); // end get data from server about all docs saved	
+
+				//click Save Button
+				$("#upload_form").submit(function(e) {
+					e.preventDefault();
+
+					var doc_id = $("#doc_id").val();
+					var filename = $("#file_name").html();
+
+					if ((doc_id == "undefined") && (filename == "undefined")) {
+						alert("Чтобы сохранить новый документ, необходимо выбрать файл");
+						return;
+					}
+					
+					if ((doc_id != "undefined") && (filename.length < 1))
+					{
+						alert("Чтобы сохранить документ, необходимо выбрать файл");
+						return;
+					}
+
+					$.ajax({
+							url : 'SaveDocumentServlet',
+							type : 'POST',
+							data : new FormData(this),		
+							processData : false,
+							contentType : false,
+							success : function(data, textStatus, xhr) {
+									  console.log(xhr.getResponseHeader('doc_id'));
+									  console.log(xhr.getResponseHeader('doc_hash'));
+									  console.log(data);
+									  console.log(textStatus);
+
+									  //set new document id
+									  $("#doc_id").val(xhr.getResponseHeader('doc_id'));
+									  //set document hash
+									  $("#doc_hash").val(xhr.getResponseHeader('doc_hash'));
+
+								      //now we can sign!
+									  $("#signButton").prop('disabled',false);
+								      
+								      // update datatable to show a new document
+								      updateTable();
+
+									  },
+							error : function(xhr, textStatus, errorThrown) {
+									 console.log(xhr);
+									 console.log(textStatus);
+									 console.log(errorThrown);
+
+									 alert("Произошла ошибка во время сохранения данных.");
+							},
+							complete : function(xhr, textStatus) {
+				                     console.log(xhr);
+									 console.log(textStatus);
+
+							}
+					}); // end of $.ajax({ url : 'SaveDocumentServlet',
+
+				}); // end click Save Button
+
+				// click Sign Button
+				$("#signButton").click(	function(e) {
+					e.preventDefault();
+
+					var certList = getCertificatesListFromLocalStore();
+					
+					//clear the list
+					$("#certificates").children().remove();
+
+					if (certList != null && certList.length > 0) {
+
+						for (var i = 1; i <= certList.length; i++) {
+							var o = new Option(certList[i], certList[i]);
+							$("#certificates").append(o);
+						}
+
+						$('#confirm').modal({
+							position : ["20%", ],
+							overlayId : 'confirm-overlay',
+							containerId : 'confirm-container',
+							minHeight : '200px',
+							minWidth : '600px',
+							onShow : function(dialog) {
+								var modal = this;
+
+								// if the user clicks "yes"
+								$("#yes").click(function() {
+								
+									var certSubjectName = $("#certificates option:selected").text();
+									
+									//try getting the certificate object
+									var certObj = getCertificateFromLocalStoreByName(certSubjectName);
+
+									// Предварительно закодированные в BASE64 бинарные данные
+									// В данном случае закодирована строка "Some Data."
+									//var dataInBase64 = "U29tZSBEYXRhLg==";
+									
+									// we must have the hash from saved document here
+									var dataInBase64 =  $("#doc_hash").val();
+
+									var signedMessage = SignCreate(certObj, dataInBase64);
+
+									//alert (signedMessage);
+																		
+									//TODO: now we have to save document with the signature
+									//set document signature
+									$("#doc_signature").val(signedMessage);
+
+									
+
+									// call the callback
+									//if ($.isFunction(callback)) {
+										//	callback.apply();
+									//}
+									// close the dialog
+									modal.close(); // or $.modal.close();
+								}); // end of if the user clicks "yes"
+							}// end of onShow: function (dialog)
+
+						}); // end of $('#confirm').modal({
+					} // end of if (certList!=null && certList.length>0)
+					else {
+						alert("No valid certificates were found on this computer");
+					}
+
+				}); // end of click Sign Button	
+				
+				// click Verify Signature
+				$("#btnVerifySignature").click(function(e) {
+					e.preventDefault();
+					
+					// we must have the hash from saved document here
+					var dataInBase64 = $("#doc_hash").val();
+					var signedMessage = $("#doc_signature").val();
+					var verifyResult = Verify(signedMessage, dataInBase64);
+					if (verifyResult) {
+						alert("Signature verified");
+					}
+					
+													
+				}); // End of click Verify Signature
+				
+				// click Create New Button
+				$("#btnCreateNew").click(function(e) {
+					e.preventDefault();
+					
+					//clear document id
+					$("#doc_id").val("undefined");
+					//set document hash
+					$("#doc_hash").val("undefined");
+					//set document signature
+					$("#doc_signature").val("undefined");
+
+					//set document description
+					$("#desc").val("");
+					//set document creation date
+					$("#current_date").val(moment().format("YYYY/MM/DD"));
+					//set author
+					$("#author").val("George Martin");
+					//set file name
+					$("#file_name").html("undefined");
+					//TODO clear all files
+
+					//default is disabled
+					$("#btnDownloadFile").prop('disabled', true);
+					//default is disabled
+					$('#btnVerifySignature').prop('disabled',true);
+					//default is disabled
+					$("#signButton").prop('disabled', true);
+					//default is hidden
+					$("#imgSigned").prop('hidden', true);
+					
+				}); //end of click Create New Button   
+
+				// click Select a file Button
+				$("#btnSelectFile").click(function(e) {
+					e.preventDefault();
+
+					//call file2select
+					$("#file2select").trigger("click");
+
+					// !!!! this code is valid only for IE. Chrome needs approach with promise objects !!!
+					var file = $('#file2select')[0].files[0];
+					if (file) {
+						$("#file_name").html(file.name);
+					}
+				}); //end of click Select file Button   
+
+				// click Download file Button
+				$("#btnDownloadFile").click(function(e) {
+					e.preventDefault();
+
+					var fileID = $("#doc_id").val();
+
+					//if doc_id <> 0 then we have something to download. otherwise not
+					if (fileID != "undefined") {
+						$('#downloadFrame').remove(); // This shouldn't fail if frame doesn't exist
+						$('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
+						$('#downloadFrame').attr('src', 'GetDocumentFileServlet?docid='+fileID);
+					} // end of if(fileID!="undefined")
+
+				}); //end of click Download file Button 
+
+				// click Select a document to edit it
+				$('#main_table').on('click', 'button', function(e) {
+					e.preventDefault();
+
+					var tr = $(this).closest('tr');
+					var fileName = tr.children().eq(0).html();
+					var fileDate = tr.children().eq(1).html();
+					var author = tr.children().eq(2).html();
+					var description = tr.children().eq(3).html();
+					var fileID = tr.children().eq(4).html();
+
+					console.log(fileName);
+					console.log(fileID);
+												
+
+					//now call servet to get document data.
+					$.ajax({
+						url : 'GetDocumentServlet?docid=' + fileID,
+						type : 'GET',
+						success : function(data, textStatus, xhr) {
+							console.log(data);
+							console.log(textStatus);
+
+							//get json from response
+							var dataSet = jQuery.parseJSON(data);
+
+							//set new document id
+							$("#doc_id").val(dataSet.doc_id);
+							//set document hash
+							$("#doc_hash").val(dataSet.doc_hash);
+							//set document signature
+							$("#doc_signature").val(dataSet.doc_signature);
+							
+							// default is disabled
+							$("#signButton").prop('disabled',true);
+							//default is hidden
+							$("#imgSigned").prop('hidden', true);
+							//default is disabled
+							$('#btnVerifySignature').prop('disabled',true);
+							if($("#doc_signature").val().length>100)
+							{
+								//show image
+								$("#imgSigned").prop('hidden', false);
+								
+								$('#btnVerifySignature').prop('disabled',false);
+							}
+
+							//set document description
+							$("#desc").val(dataSet.description);
+							//set document creation date
+							$("#current_date").val(dataSet.dateOfcreation);
+							//set author
+							$("#author").val(dataSet.author);
+							//set file name
+							$("#file_name").html(dataSet.fileName);
+
+							//default is disabled
+							$("#btnDownloadFile").prop('disabled',true);
+							if ($("#file_name").html().length > 2) {//enable download button
+								$("#btnDownloadFile").prop('disabled', false);
+							}
+
+						},
+						error : function(xhr, textStatus, errorThrown) {
+							console.log(xhr);
+							console.log(textStatus);
+							console.log(errorThrown);
+
+							alert("Произошла ошибка во время получения данных: " + errorThrown);
+						},
+															complete : function(
+																	xhr,
+																	textStatus) {
+
+																console
+																		.log(xhr);
+																console
+																		.log(textStatus);
+
+															}
+														});
+												//end call servlet to get specific document data 
+
+											}); // end of select a row to edit 
+
+						});
+	</script>
+
+
+</body>
+
+
+</html>
