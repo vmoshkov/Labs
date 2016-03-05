@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html style="height: 95%;">
+
+<head>
+<meta charset="UTF-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<title>EMC Documentum Context Search Lab</title>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+
+<link type='text/css' href="css/jquery.dataTables.css" rel="stylesheet">
+<link type='text/css' href="css/startpage.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$.ajaxSetup({
+				cache : false
+	  			});
+	
+	//Инициализация jquery datatables и заполнение её данными
+	var oMainTable = $('#main_table').DataTable({
+									"bLengthChange" : false,
+									"pageLength" : 5,
+									"bInfo" : true,
+									//"sScrollY": "200px",
+									"bPaginate" : true,
+									"bStateSave" : true,
+									"rowHeight" : 'auto',
+									"bFilter" : true,
+									"bSort" : true,
+									"bAutoWidth" : true,									
+									columns : [
+
+											{
+												data : "object_name"
+											},
+											{
+												data : "creation_date"
+											},
+											{
+												data : "author"
+											},
+											{
+												data : "summary"
+											},
+											{
+												data : "doc_id"												
+											} ]
+								});
+	
+	
+		
+
+	
+	
+	// click Search Button
+	$("#btnSearch").click(function(e) {
+		e.preventDefault();
+		
+		var fullText = $("#keywords").val();
+		
+		
+		
+		//now call servet to get document data.
+		$.ajax({
+			url : 'GetAllDocumentsServlet?fulltext=' + fullText,
+			type : 'GET',
+			success : function(data, textStatus, xhr) {
+				console.log(data);
+				console.log(textStatus);
+
+				//get json from response
+				var dataSet = jQuery.parseJSON(data);
+				
+				var oTable = $('#main_table').dataTable();
+				
+				oTable.fnClearTable(0);
+				oTable.fnAddData(dataSet);
+				oTable.fnDraw();
+
+				//alert (dataSet);
+			},
+			error : function(xhr, textStatus, errorThrown) {
+				console.log(xhr);
+				console.log(textStatus);
+				console.log(errorThrown);
+
+				alert("Произошла ошибка во время получения данных: " + errorThrown);
+			},
+			complete : function(xhr, textStatus) {
+				console.log(xhr);
+				console.log(textStatus);
+			}
+		}); //end call servlet to get all document by the tezt 
+									
+	}); // end of click Sign Button
+	
+	
+	
+}); // end of $(document).ready
+
+
+
+</script>
+
+</head>
+
+<body style="height: 100%;">
+
+	<div id="main_table_div">
+
+		This application searchs for the text against EMC Documentum docbase. Its results are limited to 100 rows. Timeout is set to 60sec.
+		dm_document.object_name is used for fulltext search.
+		<hr>
+		<br>
+		<br>
+		Input the text you expect to be contained in documents: 
+		<input type="text" name="keywords" id="keywords" value="?" size="40">
+		<br>
+		<button id="btnSearch">Search<img src="img/search_32.png" style="vertical-align: middle">
+		</button>
+		<hr>
+		
+		<table id="main_table">
+			<thead>
+				<tr>
+					<th>Наименование файла</th>
+					<th width="100px">Дата создания документа</th>
+					<th>Автор</th>
+					<th>Описание</th>
+					<th width="100px">Внутренний идетификатор</th>
+				
+				</tr>
+			</thead>
+		</table>
+	</div>	
+
+</body>
+
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>My Documentum Context Search Client</display-name>
+  
+  <!-- Servlet for getting a list of documents -->
+	<servlet>
+		<servlet-name>GetAllDocumentsServlet</servlet-name>
+		<servlet-class>ru.vm.labs.dctmsearchclient.GetAllDocumentsServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GetAllDocumentsServlet</servlet-name>
+		<url-pattern>/GetAllDocumentsServlet</url-pattern>
+	</servlet-mapping>
+  
+  <welcome-file-list>
+		<welcome-file>startpage.html</welcome-file>
+	</welcome-file-list>
+</web-app>

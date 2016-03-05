@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ru.vm.labs</groupId>
+	<artifactId>dctmsearchclient</artifactId>
+	<packaging>war</packaging>
+	<version>1.0</version>
+	<name>dctmsearchclient Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+ <properties>
+    <checkstyle.config.location>http://jenkins2.lab.croc.ru/checkStyle/CrocCheckStyle.xml</checkstyle.config.location>
+  </properties>
+
+	<dependencies>
+
+		<!-- for logging -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- for Servlets -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<!-- for content search in EMC Documentum -->
+		<dependency>
+			<groupId>com.emc.documentum</groupId>
+			<artifactId>dfc</artifactId>
+			<version>6.7SP2</version>
+		</dependency>
+
+		<!-- for work with json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<finalName>dctmsearchclient</finalName>
+		<plugins>
+
+<!-- this plugin is required because we need to show to JUNIT where additional jars which are required in runtime lie -->
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+        	<additionalClasspathElements>
+        			 <additionalClasspathElement>${basedir}/src/libs/aspectjrt-1.8.0.jar</additionalClasspathElement>
+           			 <additionalClasspathElement>${basedir}/src/libs/commons-lang-2.6.jar</additionalClasspathElement>
+           			 <additionalClasspathElement>${basedir}/src/libs/certjFIPS-2.2.0.0.jar</additionalClasspathElement>
+           			 <additionalClasspathElement>${basedir}/src/libs/jsafeFIPS-3.6.jar</additionalClasspathElement>
+           			 <additionalClasspathElement>${basedir}/src/libs/xtrim-6.7.2040.0059-api.jar</additionalClasspathElement>
+           			 <additionalClasspathElement>${basedir}/src/libs/xtrim-6.7.2040.0059-server.jar</additionalClasspathElement>
+             </additionalClasspathElements>
+             
+        </configuration>
+      </plugin>
+      
+			<!-- this plugin is required because i want to copy jars that do not need in compile time
+			* but need in runtime from custom resource directory to the standart target/${project.build.finalName}/WEB-INF/lib
+			 -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/libs</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.0.v20150612</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/test</contextPath>
+					</webApp>
+					 <configuration>
+        					<war>${project.basedir}/target/${project.build.finalName}.war</war>
+     					 </configuration>
+				</configuration>
+			</plugin>
+
+<!-- checkstyle plugin to assess the code with a compliance with CROC rules -->
+ <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version> <!-- only 2.17 is complaint with CROC rules configurations -->
+        <configuration>
+         <!-- <configLocation>${project.basedir}/src/main/java/CrocCheckStyle.xml</configLocation> -->
+<configLocation>http://jenkins2.lab.croc.ru/checkStyle/CrocCheckStyle.xml</configLocation>
+
+        </configuration>
+      </plugin>
+
+<!-- jacoco plugin to assess the code with compliance with code coverage rules -->
+<plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.5.201505241946</version>
+        <executions>
+          <execution>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+<!--
+          <execution>
+            <id>default-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+           </execution>
+-->
+        </executions>
+      </plugin>
+		</plugins>
+	</build>
+
+ 
+  
+</project>
