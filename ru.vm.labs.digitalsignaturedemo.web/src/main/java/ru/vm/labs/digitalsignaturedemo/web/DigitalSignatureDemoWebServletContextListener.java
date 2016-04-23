@@ -24,7 +24,7 @@ public class DigitalSignatureDemoWebServletContextListener implements ServletCon
 		  
 		  if(!repository.exists())
 		  {
-			  repository.mkdir();
+			  repository.mkdirs();
 		  }
 					
 		//now it's time to init Db
