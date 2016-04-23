@@ -133,6 +133,10 @@
 		var CAPICOM_CERTIFICATE_FIND_SHA1_HASH = 0;
 		var CADESCOM_BASE64_TO_BINARY = 0x01;
 		var CADESCOM_CADES_BES = 1;
+		
+		var CAPICOM_CHECK_TRUSTED_ROOT = 1;
+		var CAPICOM_CHECK_TIME_VALIDITY = 2;
+		var CAPICOM_CHECK_SIGNATURE_VALIDITY = 4;
 							
 
 		function GetErrorMessage(e) {
@@ -147,7 +151,9 @@
 
 		function getCertificatesListFromLocalStore() {
 			try {
-				var oStore = cadesplugin.CreateObject("CAdESCOM.Store");
+				//I use CAPICOM API instead od CADESCOM, because it has more functionality
+				//var oStore = cadesplugin.CreateObject("CAdESCOM.Store");
+				var oStore = cadesplugin.CreateObject("CAPICOM.Store");
 
 				oStore.Open(CAPICOM_CURRENT_USER_STORE, CAPICOM_MY_STORE);
 			} catch (e) {
@@ -178,9 +184,17 @@
 				try {
 					for (var i = 1; i <= certCnt; i++) {
 						var cert = oStore.Certificates.Item(i);
+						
+						var CertificateStatus = cert.IsValid();
+						
+						CertificateStatus.CheckFlag = CAPICOM_CHECK_TRUSTED_ROOT |
+													CAPICOM_CHECK_TIME_VALIDITY |
+													CAPICOM_CHECK_SIGNATURE_VALIDITY;
+						
+						
+						console.log(cert.SubjectName + " has privatekey=" + cert.HasPrivateKey() + " and is valid=" + cert.IsValid().Result);
 
-						if (dateObj < cert.ValidToDate && cert.HasPrivateKey()
-								&& cert.IsValid().Result) {
+						if (cert.HasPrivateKey() && cert.IsValid().Result) {
 							console.log(cert.SubjectName);
 							certList[i] = cert.SubjectName;
 						}
@@ -501,6 +515,7 @@
 									var signedMessage = SignCreate(certObj, dataInBase64);
 
 									//alert (signedMessage);
+									console.log("signedMessage = " + signedMessage);
 																		
 									//TODO: now we have to save document with the signature
 									//set document signature
