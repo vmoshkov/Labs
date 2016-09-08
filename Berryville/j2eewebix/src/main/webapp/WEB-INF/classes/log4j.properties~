@@ -1,0 +1,13 @@
+log4j.rootLogger=INFO, R
+
+log4j.appender.R=org.apache.log4j.DailyRollingFileAppender 
+log4j.appender.R.File=system.log 
+log4j.appender.R.layout=org.apache.log4j.PatternLayout 
+log4j.appender.R.layout.ConversionPattern=%d{ABSOLUTE} %5p %t %c{1}:%M:%L - %m%n 
+
+log4j.logger.ru.vm.berryville.j2eewebix=DEBUG, vmdebug
+
+log4j.appender.vmdebug=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.vmdebug.file=j2eewebix.log
+log4j.appender.vmdebug.layout=org.apache.log4j.PatternLayout
+log4j.appender.vmdebug.layout.conversionPattern=%d{ABSOLUTE} %5p %t %c{1}:%M:%L - %m%

@@ -1,0 +1,677 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/docs.css">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="initial-scale = 1.0" />
+		<link href="/assets/favicon.ico" rel="shortcut icon" />
+		<title>Berryville Project´ J2EE + Webix Application</title>
+  		<link rel="stylesheet" href="webix/webix.css" type="text/css">
+		<script src="webix/webix.js" type="text/javascript"></script>
+
+	</head>
+<body>
+
+	<script type="text/javascript" charset="utf-8">
+
+	webix.ready(function () {
+
+	});
+
+
+// Layout со списками и меню
+	var Tables = [
+	      { view:"toolbar",
+		paddingY:2,
+                height:60,
+		cols: [ { view:"button", type:"image", label:"Add",
+						image:"img/symbol_add.png", width:60,  click: function(){
+										open_editor("newobject");
+						}
+					}]
+	      },
+
+
+				{
+						view:"datatable",
+						id: "manufacturers_table",
+						batch:"manufacturers",
+					 autoConfig:true,
+					 editable:false,
+					 columns:[
+								 { id:"title",	header:"Title", width: 200},
+								 { id:"country",	header:"Country", width: 200}
+					 ],
+					 url: "getallmanufacturers",
+					onContext:{} //required for context menu
+				},
+
+	      { view:"datatable",
+						id: "cars_table",
+						batch:"cars",
+						autoConfig:true,
+						editable:false,
+						rowHeight:100,
+					 columns:[
+									{ id:"entry_date",	header:"Date", width: 200, sort: "date"},
+									{ id:"prise",	header:"Prise", width: 200, sort: "int"},
+									{ id:"manufacturer",	header:"Manufacturer", width: 200, sort: "string"},
+									{ id:"model",	header:"Model" },
+									{ id:"photo",	header:"Photo", width:200,
+
+									template:function(obj){
+														var html = "";
+														html = "<img height=100 width=200 src='data:image/jpeg;base64," + obj.photo + "'>";
+														return html;
+													} }
+
+
+								],
+
+						url: "getalladverts",
+						on: {
+							"onItemDblClick": function(id, e, node){
+										////
+							},
+							"onItemClick":function(id, e, trg){
+										//id.column - column id
+										//id.row - row id
+										//webix.message("Click on row: " + id.row+", column: " + id.column);
+									}
+						},
+						onContext:{} //required for context menu
+	      }
+
+	];
+
+
+// Universal context menu for all lists
+	webix.ui({
+				 view:"contextmenu",
+			 	 id:"cmenu",
+				 data:["Add","Edit","Delete"],
+				 on:{
+						 onItemClick:function(id){
+								 var context = this.getContext();
+								 var action = this.getItem(id).value;
+								 var objectId = context.id.row;
+
+								 console.log(action);
+								 console.log(objectId);
+								 webix.message("item id: " + context.id.row );
+
+								 if(action=="Delete")
+								 {
+									 delete_object(objectId);
+								 }
+								 if(action=="Edit")
+								 {
+									 webix.message("Open object with id = " + objectId + " for edition");
+									 open_editor(objectId);
+								 }
+								 if(action=="Add")
+								 {
+									 	open_editor("newobject");
+								 }
+						 }
+				 }
+ });
+
+
+// Editor of a Manufacturer object
+	var manufacturerEditor = [
+						{cols:[
+						{ view:"text", label:"Country", id: "country", name: "country", validate:webix.rules.isNotEmpty, labelWidth: 130, required:true, labelAlign:"right"},
+						{}]},
+						{cols:[
+						{ view:"text", label:"Manufacturer", id: "manufacturer", name: "manufacturer", validate:webix.rules.isNotEmpty, labelWidth: 130, required:true, labelAlign:"right" },
+						{}]},
+						{cols:[
+						{ view:"text", label:"Object ID", id: "id", name: "id", readonly:true, disabled: true, labelWidth: 130, labelAlign:"right" },
+						{}]},
+						{cols:[
+						{ view:"text", label:"Type", id: "type", name: "type", readonly:true, disabled: true, value: "manufacturer", labelWidth: 130, labelAlign:"right" },
+						{}]},
+						{},
+						{ margin:5, cols:[
+							{ view:"button", value:"Save", type: "form", click:function(){
+											save_manufacturer();
+							}},
+							{ view:"button", value:"Cancel", 	click:function(){
+											return_to_tables();
+							} }
+						]}
+	];
+
+// Editor of a Car object
+	var carEditor = [
+				{cols: [
+					// first5 line
+					{view:"datepicker", id:"item_date", name:"item_date", value:new Date(), format: "%Y-%m-%d", stringResult:true, align: "left", 	labelAlign:"right", label: 'Item Date', labelWidth: 100, width: 250},
+					{ view:"text",
+					type:'text',
+					label:"Contact person",
+					id: "contact_person", name: "contact_person",
+					required:true,
+					invalidMessage: "Contact person can not be empty",
+					labelAlign:"right", labelWidth: 130, width: 350},
+					{ view:"text", type:'text', label:"Phone number", id:"phone", name:"phone", required:true, labelAlign:"right", labelWidth: 130, width: 350},
+					{}
+				]},
+				// second line
+				{ template:"Car information:", type:"section"},
+
+				// third line
+				{cols: [
+							{ view:"select", label:"Car manufacturer", options: [], id:"car_manufacturer", name:"car_manufacturer", align: "left", 	labelAlign:"right", required:true, labelWidth: 130, width: 350	},
+							{ view:"text", value:'', label:"Model", id:"car_model", name:"car_model", align: "left", 	labelAlign:"right", required:true, labelWidth: 100, width: 350 },
+							{ view:"select", label:"Car year", id: "car_year", name: "car_year", align: "left", 	labelAlign:"right", required:true, labelWidth: 100, width: 350, options:[]},
+							{}
+				]},
+
+				//forth line
+				{cols:[
+						{
+							view:"carousel",
+							id:"carousel",
+							height: 500,
+							width:700,
+							navigation:{
+			    				type: "side",
+			    				items:true
+			    				//buttons:false
+							},
+							cols:[ ]
+						},
+						{rows:[
+									{view:"textarea" , height:250, required:true, label: "Description", id: "car_desc", name: "car_desc", labelPosition:"top" },
+									{
+												view: "uploader", value: 'Upload Images',
+												id: "car_photos", name:"car_photos", accept:"image/png, image/gif, image/jpg",
+												autosend:false,
+												type:"form",
+												link:"mylist",
+												upload:"saveimage"
+									},
+									{
+					            view:"list",
+					            id:"mylist",
+					            type:"uploader" //defines config of each list item
+					        }
+					]}
+				]},
+
+				//six line
+				{ margin: 10, cols: [
+					{},
+					{ view:"text",
+						type:'number',
+						id: "car_prise", name: "car_prise",
+						required:true,
+						validate:webix.rules.isNumber,
+						value:'0',
+						labelAlign:"right",
+						invalidMessage: "Prise must be a number and must be greater then 0",
+						label:"Prise", labelWidth: 130, width: 350},
+					{}
+				]},
+
+				// seventh line
+				{ template:"System data:", type:"section"},
+
+				// eightth line
+
+				{margin: 5, cols: [
+					{ view:"text", label:"Object ID", id: "car_id", name: "car_id", readonly:true, disabled: true, labelWidth: 130, labelAlign:"right" },
+					{ view:"text", label:"Type", id: "adv_type", name: "type", readonly:true, disabled: true, value: "advert", labelWidth: 130, labelAlign:"right" },
+					{}
+				]},
+
+				{},
+				{ margin:5, cols:[
+					{ view:"button", value:"Save", type: "form", click:function(){
+						   save_car();
+					}},
+
+					{ view:"button", value:"Cancel", 	click:function(){
+											$$("space2").clear();
+											$$("space2").clearValidation();
+											$$("space2").refresh();
+											return_to_tables();
+					} }
+				]}
+			];
+
+
+// Главный layout
+var mainLayout =  webix.ui({
+					 id:'mainlayout',
+					 visibleBatch:"tables",
+  cols:[
+       { view:"list",
+	 id: "list1",
+	 data:[{id:"cars", value:"Cars"}, {id:"manufacturers", value: "Manufacturers"}],
+         ready:function(){ this.select(this.getFirstId());},
+         select:true,
+         scroll:false,
+         width:200,
+	 on:{
+							"onItemClick": function(id, e, tgr){
+								var mode = this.getItem(id).id;
+								webix.message(mode);
+								$$("space1").showBatch(mode);
+							}
+	  }
+        },
+	{type:"space", id:"space1", visibleBatch:"cars", batch: "tables", rows: Tables},
+	{view:"form", id:"space2", batch: "carEditor",  elements:[{rows: carEditor}]},
+	{view:"form", id:"space3", batch: "manufacturerEditor",  elements:[{rows: manufacturerEditor}]}
+  ]
+});
+
+
+//works with the whole list
+$$("cmenu").attachTo($$("cars_table"));
+$$("cmenu").attachTo($$("manufacturers_table"));
+
+
+/********************
+!!!!!!!!!!!!!!!!!!!!!!!!!   Functions !!!!!!!!!!!!!!!!!!!!!!!!!!!
+*********************/
+
+function open_editor(object_id){
+	// debug
+	webix.message("EDITOR starts; object id = " + object_id + ";");
+
+	var tableid = $$("list1").getSelectedId();
+	//webix.message(tableid);
+	if(tableid=="cars") {
+			open_car_editor(object_id)
+	}
+	else if (tableid=="manufacturers")
+	{
+			open_manufacturer_editor(object_id);
+	}
+
+	// http://docs.webix.com/helpers__ajax_operations.html (how to use ajax)
+};
+
+function return_to_tables()
+{
+			 $$("list1").enable();
+			 $$("mainlayout").showBatch("tables");
+}
+
+/*
+* Editor for Manufacturer objects
+*/
+function open_manufacturer_editor(object_id)
+{
+	$$("list1").disable();
+
+
+	$$("country").setValue("");
+	$$("manufacturer").setValue("");
+	$$("id").setValue("");
+	  //object_id не пустой
+	  if(object_id!="newobject")
+		{
+					// Загрузка значений из базы
+					var params = "type=manufacturer&id=" + object_id;
+					console.log(params);
+
+					webix.ajax().get("getobject", params, {
+									error:function(text, data, XmlHttpRequest){
+									 alert("Failed to get a manufacturer." + text);
+								},
+								success:function(text, data, XmlHttpRequest){
+										webix.message({ type:"info", text:"New manufacurer was obtained" });
+										console.log(data.json());
+										var manufacurer = data.json();
+
+										$$("country").setValue(manufacurer.country);
+										$$("manufacturer").setValue(manufacurer.title);
+										$$("id").setValue(manufacurer.id);
+								}
+					} );
+		}
+
+		$$("mainlayout").showBatch("manufacturerEditor");
+
+}
+
+/*
+* Method to save a manufacturer object
+*/
+function save_manufacturer()
+{
+	var form = $$("space3");
+
+	if (!form.validate())
+	{
+					webix.message({ type:"error", text:"Form data is invalid" });
+					return;
+	}
+
+	var formvalues = form.getValues();
+	console.log(formvalues);
+
+	webix.ajax().post("saveobject", formvalues, {
+					error:function(text, data, XmlHttpRequest){
+					 alert("Failed to save new manufacturer." + text);
+				},
+				success:function(text, data, XmlHttpRequest){
+					 	webix.message({ type:"info", text:"New manufacurer is saved" });
+						$$("manufacturers_table").clearAll();
+						$$("manufacturers_table").load("getallmanufacturers");
+						$$("manufacturers_table").refresh();
+					 return_to_tables();
+				}
+	} );
+
+}
+
+function open_car_editor(object_id)
+{
+		$$("list1").disable();
+
+		$$("car_id").setValue("");
+		$$("contact_person").setValue("");
+		$$("phone").setValue("");
+		$$("car_model").setValue("");
+		$$("car_desc").setValue("");
+		$$("car_prise").setValue("");
+		$$("item_date").setValue(new Date());
+		$$("adv_type").setValue("advert");
+
+		// set years
+		var dynamic = getYears();
+		$$("car_year").define("options", dynamic);
+		$$("car_year").refresh();
+
+		// set manufacturers
+		setManufacturers();
+
+		//clear images
+		var newElem = getCarousel();
+		var newView = webix.ui(newElem, $$("carousel"));
+		$$("space2").refresh();
+
+		//DEBUG // Бага с невозможность инициировать селект нужным значением
+		//var inputnode = $$("car_manufacturer").getInputNode();
+		var node = $$("car_manufacturer").getNode();
+		var selectElemColl = node.getElementsByTagName("select");
+		var size = selectElemColl.length;
+		var selectElem = selectElemColl.item(0);
+		var selectedvalue = $$("car_manufacturer").value;
+
+		console.log(node);
+		console.log(selectElem);
+		console.log(size);
+		// END DEBUG
+
+		// Если нужно загрузить объект из базы
+		if(object_id!="newobject")
+		{
+				// Загрузка значений из базы
+				var params = "type=advert&id=" + object_id;
+				console.log(params);
+
+				webix.ajax().get("getobject", params, {
+								error:function(text, data, XmlHttpRequest){
+								 alert("Failed to get a car object." + text);
+							},
+							success:function(text, data, XmlHttpRequest){
+									webix.message({ type:"info", text:"Car object was obtained" });
+									console.log(data.json());
+									var car = data.json();
+
+									$$("item_date").setValue(car.date);
+									$$("car_prise").setValue(car.prise);
+									$$("car_id").setValue(car.id);
+									$$("contact_person").setValue(car.person);
+									$$("phone").setValue(car.phone);
+									$$("car_model").setValue(car.model);
+									$$("car_desc").setValue(car.description);
+									$$("car_year").setValue(car.year);
+									$$("car_manufacturer").setValue(car.manufacurer);
+									$$("adv_type").setValue("advert");
+
+									newElem = getCarousel();
+
+									for(k=0; k<car.images.length; k++)
+									{
+											 var ImageData = car.images[k].data;
+											 var ImageName = car.images[k].filename;
+
+											 //console.log(ImageName);
+											 //console.log(ImageData);
+
+											 var html = "";
+											 html = "<img height=500 width=700 src='data:image/jpeg;base64," + ImageData + "' alt='" + ImageName + "'>";
+
+											 var newImage = { template:html, id: ImageName };
+											 newElem.cols.push(newImage);
+
+											 // It´s a valid way of creation of the new component dynamicly; But it doesn´t work;
+											 //var newView = webix.ui({ template:html, id: ImageName }, $$("carousel"), k+1);
+											  //$$("space2").refresh();
+									}
+
+									// replace default carousel with the one which was created dynamicly
+									var newView = webix.ui(newElem, $$("carousel"));
+									$$("space2").refresh();
+
+									//console.log(newElem);
+
+							}
+				} );
+		}
+
+		$$("space2").refresh();
+		$$("mainlayout").showBatch("carEditor");
+
+}
+
+
+// Function which returns carousel template object;
+function getCarousel()
+{
+	 var carouselElem;
+
+		carouselElem = 	{
+				 view:"carousel",
+				 id:"carousel",
+				 height: 500,
+				 width:700,
+				 navigation:{
+						 type: "side",
+						 items:true
+						 //buttons:false
+				 },
+				 cols:[ ]
+			 };
+
+	 return carouselElem;
+}
+
+// Helps to get JSON of available years
+function getYears()
+{
+	var d = new Date();
+	var year = d.getFullYear();
+	var text = "{\"value\":\"" + year + "\"}";
+	var lowerYear = year - 10;
+
+	for (j=(year-1); j>= lowerYear; j--)
+	{
+		text = text + ",{\"value\":\"" + j + "\"}";
+	};
+
+	text = "[" + text + "]";
+  return JSON.parse(text);
+}
+
+// Helps to get JSON with available manufacturers
+function setManufacturers()
+{
+	  var list = "";
+		webix.ajax().sync().get("getallmanufacturers", {
+						error:function(text, data, XmlHttpRequest){
+						 alert("Failed to get manufacturers." + text);
+					},
+					success:function(text, data, XmlHttpRequest){
+							webix.message({ type:"info", text:"List was obtained" });
+							//console.log(data.json());
+							var manufacurersList = data.json();
+
+							for (index = 0; index < manufacurersList.length; ++index) {
+    							//console.log(manufacurersList[index].title);
+									if(list.length==0)
+									{
+										   list =  "{\"value\":\"" + manufacurersList[index].title + "\"}";
+									}
+									else
+											list = list + ",{\"value\":\"" + manufacurersList[index].title + "\"}";
+							}
+
+							list = "[" + list + "]";
+
+							//console.log(list);
+
+
+							$$("car_manufacturer").define("options", JSON.parse(list));
+							$$("car_manufacturer").refresh();
+					}
+		} );
+}
+
+/*
+*  Function that serves to save a car(advert) object
+*/
+function save_car()
+{
+	var form = $$("space2");
+
+	if (!form.validate())
+	{
+					webix.message({ type:"error", text:"Form data is invalid" });
+					return;
+	}
+
+
+	// save object´s imaages
+	var formvalues = form.getValues();
+	console.log(formvalues);
+
+	// save object attributes at first (synchronously!!)
+	webix.ajax().sync().post("saveobject", formvalues, {
+					error:function(text, data, XmlHttpRequest){
+					 alert("Failed to a car." + text);
+				},
+				success:function(text, data, XmlHttpRequest){
+						webix.message({ type:"info", text:"New car is saved" });
+						console.log(text);
+						console.log(data);
+						console.log(XmlHttpRequest);
+
+					  var savedcarId = XmlHttpRequest.getResponseHeader ("car_id");
+					 	console.log("savedcarId: " + savedcarId);
+
+						// set new Id
+						$$("car_id").setValue(savedcarId);
+						$$("car_id").refresh();
+						$$("space2").refresh();
+
+						// save image
+						formvalues = form.getValues();
+						console.log("formdata: " + formvalues);
+						$$("car_photos").formData = formvalues;
+						$$("car_photos").send(function(){
+										//getting file properties
+										$$('car_photos').files.data.each(function(obj){
+											var status = obj.status;
+											var name = obj.name;
+
+											console.log(obj);
+									});
+						}, formvalues);
+
+				}
+	} );
+
+	$$("cars_table").clearAll();
+	$$("cars_table").load("getalladverts");
+	$$("cars_table").refresh();
+  return_to_tables();
+
+}; //end of save_car function
+
+function delete_object(objectId)
+{
+			webix.confirm({
+			title:"Warning",
+			ok:"Yes",
+			cancel:"No",
+			type:"alert-warning",
+			text:"Are you sure you want to delete this object?",
+			callback:function(result){ //setting callback
+
+				 if (result == false) return;
+
+				 var tableid = $$("list1").getSelectedId();
+				 //webix.message(tableid);
+				 if(tableid=="cars") {
+						 delete_car(objectId)
+				 }
+				 else if (tableid=="manufacturers")
+				 {
+						 delete_manufacturer(objectId);
+				 }
+		 }
+		});
+}
+
+function delete_car(objectId)
+{
+		var params = "id="+objectId;
+		console.log(params);
+
+		webix.ajax().post("deletecar", params, {
+					error:function(text, data, XmlHttpRequest){
+					 alert("Failed to delete a car." + text);
+				},
+				success:function(text, data, XmlHttpRequest){
+						$$("cars_table").clearAll();
+						$$("cars_table").load("getalladverts");
+						$$("cars_table").refresh();
+					 //return_to_tables();
+				}
+	} );
+
+}
+
+
+function delete_manufacturer(objectId)
+{
+		var params = "id="+objectId;
+		console.log(params);
+
+		webix.ajax().post("deletemanufacturer", params, {
+					error:function(text, data, XmlHttpRequest){
+					 alert("Failed to delete manufacturer." + text);
+				},
+				success:function(text, data, XmlHttpRequest){
+						$$("manufacturers_table").clearAll();
+						$$("manufacturers_table").load("getallmanufacturers");
+						$$("manufacturers_table").refresh();
+					 //return_to_tables();
+				}
+	} );
+
+}
+
+       </script>
+
+</body>
+</html>

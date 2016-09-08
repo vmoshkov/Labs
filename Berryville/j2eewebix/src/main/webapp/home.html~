@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/docs.css">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="initial-scale = 1.0" />
+		<link href="/assets/favicon.ico" rel="shortcut icon" />
+		<title>Berryville Project´ J2EE + Webix Application</title>
+  		<link rel="stylesheet" href="http://cdn.webix.com/edge/webix.css" type="text/css"> 
+		<script src="http://cdn.webix.com/edge/webix.js" type="text/javascript"></script>  
+	</head>
+<body>
+	<div class='abstop_header'>
+		<div class='content_area'>
+		&nbsp;
+		</div>
+	</div>
+	<div class="page_header">
+		<div class='page_inner_header'>
+			<a href='http://webix.com'><div class='top_webix_logo'></div></a>
+			Cars Desk !
+		</div>
+	</div>
+
+<!--
+	<div class="page_space">
+	<div class="webixdoc_page webixdoc_start">
+		<div id="webixContent" class='webixdoc_content'>
+			<div class="webixdoc_content_inner">
+				<div class="webixdoc_breadcrumb nav_breadcrumb">
+					<a href="http://docs.webix.com/" class="webixdoc_back">Documentation</a>
+					<a href="../index.html" class="webixdoc_back">Samples</a>
+					<a href='../index.html' class='webixdoc_back'>01 Layout</a>
+				</div>				
+			</div>
+		</div>
+
+
+	</div>
+	</div>
+-->
+	<script type="text/javascript" charset="utf-8">
+         webix.ui({
+  cols:[
+       { view:"list", 
+	 id: "list1",
+	 data:["Users", "Reports", "Settings"],
+         ready:function(){ this.select(this.getFirstId());},
+         select:true, 
+         scroll:false, 
+         width:200,
+	 on:{
+							onItemClick:open_new_tab
+	  }
+        },
+	{type:"space", id:"a1", rows:[
+	      { view:"toolbar", 
+		paddingY:2, 
+                height:60,
+		cols: [ { view:"button", type:"image", label:"Save", 
+						image:"../common/imgs/save.gif", width:60,  click:"add_new"},
+					{ view:"button", type:"image", label:"Update", 
+						image:"../common/imgs/paste.gif", width:65},
+					{ view:"button", type:"image", label:"Info",
+						image:"../common/imgs/copy.gif", width:60}
+		  ]
+	      },
+	      { view:"datatable",
+		id: "cars_table",
+		autoConfig:true,
+		editable:false,
+		data:{
+		  title:"My Fair Lady", year:1964, votes:533848, rating:8.9, rank:5
+		}
+	      } 
+	]}
+  ]
+});
+
+
+function open_new_tab(id){
+  var item = $$('list1').getItem(id);   
+	webix.message(item.title);        
+};
+			
+function add_new(){
+	$$("cars_table").add({id:"Manufacturers", title: "Lada", year:1977, votes: 54233, rating: 5.9, rank: 3 },0);
+	// http://docs.webix.com/helpers__ajax_operations.html (how to use ajax)
+};
+
+       </script>
+
+</body>
+</html>

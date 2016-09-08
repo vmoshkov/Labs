@@ -1,0 +1,77 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Berryville Project´s J2EE + Webix Application </display-name>
+  
+  <!-- for application startup initialization -->
+	<listener>
+		<listener-class>
+			ru.vm.berryville.j2eewebix.MyAppContextListener
+		</listener-class>
+	</listener>
+
+
+<!-- Servlet for getting all manufacturers objects -->
+	<servlet>
+		<servlet-name>getallmanufacturers</servlet-name>
+		<servlet-class>ru.vm.berryville.j2eewebix.GetAllManufacturers</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>getallmanufacturers</servlet-name>
+		<url-pattern>/getallmanufacturers</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Servlet for deleting manufacturers objects -->
+	<servlet>
+		<servlet-name>deletemanufacturer</servlet-name>
+		<servlet-class>ru.vm.berryville.j2eewebix.DeleteManufacturer</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>deletemanufacturer</servlet-name>
+		<url-pattern>/deletemanufacturer</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Servlet for getting all adverts objects -->
+	<servlet>
+		<servlet-name>getalladverts</servlet-name>
+		<servlet-class>ru.vm.berryville.j2eewebix.GetAllAdverts</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>getalladverts</servlet-name>
+		<url-pattern>/getalladverts</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Servlet for getting a object from DB -->
+	<servlet>
+		<servlet-name>getobject</servlet-name>
+		<servlet-class>ru.vm.berryville.j2eewebix.GetTypedObjectByID</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>getobject</servlet-name>
+		<url-pattern>/getobject</url-pattern>
+	</servlet-mapping>
+
+	<!-- Servlet for saving a object to DB -->
+	<servlet>
+		<servlet-name>saveobject</servlet-name>
+		<servlet-class>ru.vm.berryville.j2eewebix.SaveTypedObject</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>saveobject</servlet-name>
+		<url-pattern>/saveobject</url-pattern>
+	</servlet-mapping>
+  
+  <welcome-file-list>
+		<welcome-file>home.html</welcome-file>
+  </welcome-file-list>
+	
+</web-app>

@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Sat Jul 09 23:11:18 MSK 2016:
+ Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): экземпляр a816c00e-0155-d149-1eea-000000dfd968
+в каталоге базы данных /home/administrator/workspace/Berryville/j2eewebix/data/carsdeskdb sun.misc.Launcher$AppClassLoader@66d3c617 
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_72-b15
+user.dir=/home/administrator/workspace/Berryville/j2eewebix/db-derby-10.12.1.1-bin/bin
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-16-generic
+derby.system.home=null
+Запущен загрузчик классов базы данных - derby.database.classpath=''
+----------------------------------------------------------------
+Sat Jul 09 23:32:09 MSK 2016: Shutting down Derby engine
+----------------------------------------------------------------
+Sat Jul 09 23:32:09 MSK 2016:
+Завершается работа экземпляра a816c00e-0155-d149-1eea-000000dfd968
+----------------------------------------------------------------
