@@ -1,30 +1,22 @@
 
-Car Desk Demo Application demonstrates a simple programm that provides the ability to create advertisements for a sell;
+Car Desk Demo Application demonstrates a simple app that provides an ability to create advertisements for car's selling;
 
-JRE 8 required.
+Requirements:
+1) docker
+2) maven
+3) jre 8
 
-To run this example
+To run this example:
 
+a) create Docker image and start Docker container as discribed here - https://github.com/vmoshkov/Labs/tree/master/DerbyDockerImage
 
+b) compile and run the application localy:
 1. mvn clean install
 2. mvn jetty:run
 3. Open a browser and navigate to http://localhost:8080/j2eewebix/
 
 
 Technology stack: webix, hibernate, javax.servlet, derby DB
-
-
-**************
-
-Папка db-derby-10.12.1.1-bin нужна для того чтобы обеспечить билд утилитой для доступа к базе, которая лежит в папке data/carsdeskdb
-
-Для запуска утилиты работы с базой:
-export DERBY_HOME=/home/administrator/workspace/Berryville/j2eewebix/db-derby-10.12.1.1-bin
-export DERBY_INSTALL=/home/administrator/workspace/Berryville/j2eewebix/db-derby-10.12.1.1-bin
-export CLASSPATH=$DERBY_INSTALL/lib/derby.jar:$DERBY_INSTALL/lib/derbynet.jar:$DERBY_INSTALL/lib/derbyclient.jar:$DERBY_INSTALL/lib/derbytools.jar:$DERBY_INSTALL/lib/derbyrun.jar:$CLASSPATH
-java  org.apache.derby.tools.ij
-
-connect 'jdbc:derby:/home/administrator/workspace/Berryville/j2eewebix/data/carsdeskdb;create=false';
 
 
 
