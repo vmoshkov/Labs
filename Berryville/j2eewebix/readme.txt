@@ -16,7 +16,7 @@ b) compile and run the application localy:
 3. Open a browser and navigate to http://localhost:8080/j2eewebix/
 
 
-Technology stack: webix, hibernate, javax.servlet, derby DB
+Technology stack: webix, hibernate, javax.servlet, Apache Derby DB
 
 
 
