@@ -1,40 +1,24 @@
 package ru.vm.berryville.j2eewebix.tests;
 
-import org.junit.FixMethodOrder;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.time.DateTimeException;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Example;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import ru.vm.berryville.j2eewebix.Car;
 import ru.vm.berryville.j2eewebix.DBHelper;
-import ru.vm.berryville.j2eewebix.HibernateUtil;
 import ru.vm.berryville.j2eewebix.Image;
 import ru.vm.berryville.j2eewebix.Manufacturer;
 
